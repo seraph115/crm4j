@@ -22,7 +22,7 @@ public class HaiziwangSkuDAOImpl extends GeneralDAO implements HaiziwangSkuDAO {
 		
 		String sql = "SELECT * FROM haiziwang_sku_top";
 		List<HaiziwangSku> haiziwangSkuList = this.query(sql, HaiziwangSku.class);
-		
+
 		return haiziwangSkuList;
 	}
 
