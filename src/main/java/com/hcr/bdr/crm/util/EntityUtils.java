@@ -28,29 +28,15 @@ public class EntityUtils {
 		List<Field> filedList =  Arrays.asList(fields);
 		
 		List<FieldUnit> result = new LinkedList<FieldUnit>();
-		for(Field filed : filedList) {
-			result.add(new FieldUnit(filed.getName(), getColumnNameFromField(filed.getName()), filed.getGenericType().getTypeName()));
+		for(Field field : filedList) {
+			result.add(new FieldUnit(field.getName(), ClassUtils.getColumnNameFromField(field.getName()), field.getGenericType().getTypeName()));
 		}
 		return result;
 	}
 	
-	public static String getColumnNameFromField(String filedName) {
+	public static void setValueByFieldName(Object injectedObject, String fieldName, Object value) {
 		
-		StringBuffer result = new StringBuffer();
-		for (int i = 0; i < filedName.length(); i++) {
-			
-			if( i > 0 && Character.isUpperCase(filedName.charAt(i))) {
-				result.append("_");
-				result.append(Character.toLowerCase(filedName.charAt(i)));
-			} else {
-				result.append(Character.toLowerCase(filedName.charAt(i)));
-			}
-		}
-		return result.toString();
-	}
-	
-	public static void setValueByFieldName(Object ojb, String fieldName, Object value) {
-		
+		// Guard clause to protected the method
 		if(value == null) {
 			return;
 		}
@@ -59,6 +45,7 @@ public class EntityUtils {
 		
 		StringBuffer sb = new StringBuffer();
 		sb.append("set");
+		// First character of String to upper case
 		sb.append(StringUtils.capitalize(fieldName));
 		String methodName = sb.toString();
 			
@@ -66,15 +53,15 @@ public class EntityUtils {
 		Method method = null;
 		try {
 			if("java.lang.Integer".equals(valueClassName)) {
-				method = ojb.getClass().getDeclaredMethod(methodName, int.class);
+				method = injectedObject.getClass().getDeclaredMethod(methodName, int.class);
 			} else if("java.lang.Double".equals(valueClassName)) {
-				method = ojb.getClass().getDeclaredMethod(methodName, double.class);
+				method = injectedObject.getClass().getDeclaredMethod(methodName, double.class);
 			} else if("java.sql.Date".equals(valueClassName)) {
-				method = ojb.getClass().getDeclaredMethod(methodName, Date.class);
+				method = injectedObject.getClass().getDeclaredMethod(methodName, Date.class);
 			} else {
-				method = ojb.getClass().getDeclaredMethod(methodName, value.getClass());
+				method = injectedObject.getClass().getDeclaredMethod(methodName, value.getClass());
 			}
-			method.invoke(ojb, value);
+			method.invoke(injectedObject, value);
 			
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
