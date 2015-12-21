@@ -3,10 +3,13 @@
  */
 package com.hcr.bdr.crm.standalone;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 
 import com.hcr.bdr.crm.dao.HaiziwangSkuDAO;
 import com.hcr.bdr.crm.dao.HaiziwangSkuDAOImpl;
+import com.hcr.bdr.crm.model.HaiziwangSku;
 
 /**
  * @author seraph
@@ -22,7 +25,8 @@ public class Runner {
 	public static void main(String[] args) {
 		
 		HaiziwangSkuDAO haiziwangSkuDAO = new HaiziwangSkuDAOImpl();
-		haiziwangSkuDAO.queryByAll();
+		List<HaiziwangSku> haiziwangSkuList = haiziwangSkuDAO.queryByAll();
+		log.info(haiziwangSkuList);
 	}
 
 }

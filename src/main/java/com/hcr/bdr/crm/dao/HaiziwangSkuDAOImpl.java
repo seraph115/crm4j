@@ -27,6 +27,8 @@ public class HaiziwangSkuDAOImpl extends GeneralDAO implements HaiziwangSkuDAO {
 	@Override
 	public List<HaiziwangSku> queryByAll() {
 		
+		List<HaiziwangSku> result = new LinkedList<HaiziwangSku>();
+		
 		String sql = "SELECT * FROM haiziwang_sku_top";
 		
 		List<FieldUnit> fieldUnitList = EntityUtils.getClassFields(HaiziwangSku.class);
@@ -36,20 +38,21 @@ public class HaiziwangSkuDAOImpl extends GeneralDAO implements HaiziwangSkuDAO {
 			conn = DataBaseManager.getConnection();
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
-			
-			List<HaiziwangSku> result = new LinkedList<HaiziwangSku>();
 			while(rs.next()) {
 				HaiziwangSku haiziwangSku = new HaiziwangSku();
 				for(FieldUnit fieldUnit : fieldUnitList) {
 					Object o = rs.getObject(fieldUnit.getColumnName());
+					EntityUtils.setValueByFieldName(haiziwangSku, fieldUnit.getFieldName(), o);
+					
 					log.info(fieldUnit.getFieldName() + ": " + o);
 				}
+				result.add(haiziwangSku);
 			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} 
-		
-		return null;
+		return result;
 	}
 
 }
