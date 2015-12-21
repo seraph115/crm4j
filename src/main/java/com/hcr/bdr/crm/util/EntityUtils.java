@@ -55,7 +55,7 @@ public class EntityUtils {
 			return;
 		}
 		
-		log.info(value.getClass().getName());
+		log.debug(value.getClass().getName());
 		
 		StringBuffer sb = new StringBuffer();
 		sb.append("set");

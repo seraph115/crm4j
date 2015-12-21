@@ -43,7 +43,6 @@ public class HaiziwangSkuDAOImpl extends GeneralDAO implements HaiziwangSkuDAO {
 				for(FieldUnit fieldUnit : fieldUnitList) {
 					Object o = rs.getObject(fieldUnit.getColumnName());
 					EntityUtils.setValueByFieldName(haiziwangSku, fieldUnit.getFieldName(), o);
-					
 					log.info(fieldUnit.getFieldName() + ": " + o);
 				}
 				result.add(haiziwangSku);
